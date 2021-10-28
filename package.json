@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "prepare": "husky install",
-    "lint-staged": "lint-staged"
+    "test:staged": "jest",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
