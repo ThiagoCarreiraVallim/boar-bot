@@ -23,8 +23,9 @@ describe('Account Mongo Repository', () => {
   it('Should create a server when successful', async () => {
     const sut = makeSut()
     const fakeServer = {
-      server_id: 'valid_id',
-      name: 'valid_name'
+      serverId: 'valid_id',
+      name: 'valid_name',
+      active: true
     }
     const id = await sut.add(fakeServer)
     expect(id).toBeTruthy()
@@ -33,15 +34,16 @@ describe('Account Mongo Repository', () => {
   it('Should return a server when it exists', async () => {
     const sut = makeSut()
     const fakeServer = {
-      server_id: 'valid_id',
-      name: 'valid_name'
+      serverId: 'valid_id',
+      name: 'valid_name',
+      active: true
     }
     const id = await sut.add(fakeServer)
     expect(id).toBeTruthy()
 
     const server: ServerModel = await sut.findByServerId('valid_id')
     expect(server).toBeTruthy()
-    expect(server.server_id).toBe('valid_id')
+    expect(server.serverId).toBe('valid_id')
     expect(server.name).toBe('valid_name')
   })
 
@@ -50,5 +52,21 @@ describe('Account Mongo Repository', () => {
 
     const server: ServerModel = await sut.findByServerId('valid_id')
     expect(server).toBeUndefined()
+  })
+
+  it('Should update server active status when successful', async () => {
+    const sut = makeSut()
+    const fakeServer = {
+      serverId: 'valid_id',
+      name: 'valid_name',
+      active: true
+    }
+
+    await sut.add(fakeServer)
+    let server: ServerModel = await sut.findByServerId('valid_id')
+    expect(server.active).toBe(true)
+    await sut.updateActiveStatus('valid_id', false)
+    server = await sut.findByServerId('valid_id')
+    expect(server.active).toBe(false)
   })
 })

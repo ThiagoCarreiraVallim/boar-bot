@@ -1,4 +1,5 @@
 export interface ServerData {
-  id: string
+  serverId: string
   name: string
+  active: boolean
 }

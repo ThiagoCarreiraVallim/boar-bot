@@ -29,8 +29,9 @@ describe('Bot Join Controller', () => {
   it('Should throw if invalid server id is provided', async () => {
     const { sut } = makeSut()
     const fakeServerData = {
-      id: '',
-      name: 'any_name'
+      serverId: '',
+      name: 'any_name',
+      active: true
     }
     const promise = sut.handle(fakeServerData)
     await expect(promise).rejects.toThrow()
@@ -39,8 +40,9 @@ describe('Bot Join Controller', () => {
   it('Should throw if invalid server name is provided', async () => {
     const { sut } = makeSut()
     const fakeServerData = {
-      id: 'any_id',
-      name: ''
+      serverId: 'any_id',
+      name: '',
+      active: true
     }
     const promise = sut.handle(fakeServerData)
     await expect(promise).rejects.toThrow()
@@ -50,13 +52,15 @@ describe('Bot Join Controller', () => {
     const { sut, addServerStub } = makeSut()
     const addSpy = jest.spyOn(addServerStub, 'add')
     const fakeServerData = {
-      id: 'valid_id',
-      name: 'valid_name'
+      serverId: 'valid_id',
+      name: 'valid_name',
+      active: true
     }
     await sut.handle(fakeServerData)
     expect(addSpy).toHaveBeenCalledWith({
-      server_id: 'valid_id',
-      name: 'valid_name'
+      serverId: 'valid_id',
+      name: 'valid_name',
+      active: true
     })
   })
 })

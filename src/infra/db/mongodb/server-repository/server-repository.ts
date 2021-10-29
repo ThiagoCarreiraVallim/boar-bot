@@ -10,9 +10,14 @@ export class ServerMongoRepository implements ServerRepository {
     return insertedId.toString()
   }
 
-  async findByServerId (id: string): Promise<ServerModel> {
+  async findByServerId (serverId: string): Promise<ServerModel> {
     const serverCollection = MongoHelper.getCollection('servers')
-    const server = await serverCollection.findOne({ server_id: id })
+    const server = await serverCollection.findOne({ serverId })
     return MongoHelper.map(server)
+  }
+
+  async updateActiveStatus (serverId: string, status: boolean): Promise<void> {
+    const serverCollection = MongoHelper.getCollection('servers')
+    await serverCollection.findOneAndUpdate({ serverId }, { $set: { active: status } })
   }
 }

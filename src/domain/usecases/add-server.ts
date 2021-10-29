@@ -1,6 +1,7 @@
 export interface AddServerModel {
-  server_id: string
+  serverId: string
   name: string
+  active: boolean
 }
 
 export interface AddServer {

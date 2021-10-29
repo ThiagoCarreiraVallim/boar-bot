@@ -9,6 +9,14 @@ export class DbAddServer implements AddServer {
   }
 
   async add (server: AddServerModel): Promise<void> {
+    const { serverId, active } = server
+    const serverAlreadyExist = await this.serverRepository.findByServerId(serverId)
+
+    if (serverAlreadyExist) {
+      await this.serverRepository.updateActiveStatus(serverId, active)
+      return
+    }
+
     await this.serverRepository.add(server)
   }
 }

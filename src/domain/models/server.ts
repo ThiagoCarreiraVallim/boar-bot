@@ -1,6 +1,6 @@
 export interface ServerModel {
   id: string
-  server_id: string
+  serverId: string
   name: string
   active: boolean
 }

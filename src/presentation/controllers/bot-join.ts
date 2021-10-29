@@ -1,6 +1,6 @@
 import { AddServer } from '../../domain/usecases/add-server'
 import { MissingParamError } from '../errors/missing-param-error'
-import { ServerData } from './protocols/server-data'
+import { ServerData } from '../protocols/server-data'
 
 export class BotJoinController {
   private readonly addServer: AddServer
@@ -10,12 +10,12 @@ export class BotJoinController {
   }
 
   async handle (serverData: ServerData): Promise<void> {
-    const requiredFields = ['name', 'id']
+    const requiredFields = ['name', 'serverId', 'active']
     for (const field of requiredFields) {
       if (!serverData[field]) throw new MissingParamError(field)
     }
 
-    const { id, name } = serverData
-    await this.addServer.add({ server_id: id, name })
+    const { serverId, name, active } = serverData
+    await this.addServer.add({ serverId, name, active })
   }
 }
