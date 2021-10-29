@@ -13,7 +13,8 @@ const makeAddServerRepository = (): ServerRepository => {
       return await new Promise(resolve => resolve({
         id: 'valid_id',
         server_id: 'valid_id',
-        name: 'valid_name'
+        name: 'valid_name',
+        active: true
       }))
     }
   }
