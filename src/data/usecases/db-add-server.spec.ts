@@ -4,8 +4,8 @@ import { DbAddServer } from './db-add-server'
 
 const makeAddServerRepository = (): AddServerRepository => {
   class AddServerRepositoryStub implements AddServerRepository {
-    async add (server: AddServerModel): Promise<void> {
-      return await new Promise(resolve => resolve())
+    async add (server: AddServerModel): Promise<string> {
+      return await new Promise(resolve => resolve('valid_id'))
     }
   }
 
