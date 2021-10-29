@@ -1,6 +1,13 @@
 import { ServerModel } from '../../../../domain/models/server'
+import { AddServerModel } from '../../../../domain/usecases/add-server'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { ServerMongoRepository } from './server-repository'
+
+const makeFakeServer = (): AddServerModel => ({
+  serverId: 'valid_id',
+  name: 'valid_name',
+  active: true
+})
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
@@ -20,24 +27,16 @@ describe('Account Mongo Repository', () => {
     return new ServerMongoRepository()
   }
 
-  it('Should create a server when successful', async () => {
+  it('Should add a server when successful', async () => {
     const sut = makeSut()
-    const fakeServer = {
-      serverId: 'valid_id',
-      name: 'valid_name',
-      active: true
-    }
+    const fakeServer = makeFakeServer()
     const id = await sut.add(fakeServer)
     expect(id).toBeTruthy()
   })
 
   it('Should return a server when it exists', async () => {
     const sut = makeSut()
-    const fakeServer = {
-      serverId: 'valid_id',
-      name: 'valid_name',
-      active: true
-    }
+    const fakeServer = makeFakeServer()
     const id = await sut.add(fakeServer)
     expect(id).toBeTruthy()
 
@@ -56,11 +55,7 @@ describe('Account Mongo Repository', () => {
 
   it('Should update server active status when successful', async () => {
     const sut = makeSut()
-    const fakeServer = {
-      serverId: 'valid_id',
-      name: 'valid_name',
-      active: true
-    }
+    const fakeServer = makeFakeServer()
 
     await sut.add(fakeServer)
     let server: ServerModel = await sut.findByServerId('valid_id')
