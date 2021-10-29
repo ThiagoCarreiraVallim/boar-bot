@@ -3,7 +3,9 @@ import { ServerData } from './protocols/server-data'
 
 export class BotJoinController {
   handle (serverData: ServerData): any {
-    if (!serverData.id) throw new MissingParamError('id')
-    if (!serverData.name) throw new MissingParamError('name')
+    const requiredFields = ['name', 'id']
+    for (const field of requiredFields) {
+      if (!serverData[field]) throw new MissingParamError(field)
+    }
   }
 }
