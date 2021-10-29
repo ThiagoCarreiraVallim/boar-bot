@@ -1,37 +1,46 @@
+import { ServerModel } from '../../domain/models/server'
 import { AddServerModel } from '../../domain/usecases/add-server'
-import { AddServerRepository } from '../protocols/add-server-repository'
+import { ServerRepository } from '../protocols/server-repository'
 import { DbAddServer } from './db-add-server'
 
-const makeAddServerRepository = (): AddServerRepository => {
-  class AddServerRepositoryStub implements AddServerRepository {
+const makeAddServerRepository = (): ServerRepository => {
+  class ServerRepositoryStub implements ServerRepository {
     async add (server: AddServerModel): Promise<string> {
       return await new Promise(resolve => resolve('valid_id'))
     }
+
+    async findByServerId (serverId: string): Promise<ServerModel> {
+      return await new Promise(resolve => resolve({
+        id: 'valid_id',
+        server_id: 'valid_id',
+        name: 'valid_name'
+      }))
+    }
   }
 
-  return new AddServerRepositoryStub()
+  return new ServerRepositoryStub()
 }
 
 interface SutTypes {
   sut: DbAddServer
-  addServerRepositoryStub: AddServerRepository
+  serverRepositoryStub: ServerRepository
 }
 
 const makeSut = (): SutTypes => {
-  const addServerRepositoryStub = makeAddServerRepository()
-  const sut = new DbAddServer(addServerRepositoryStub)
+  const serverRepositoryStub = makeAddServerRepository()
+  const sut = new DbAddServer(serverRepositoryStub)
 
-  return { sut, addServerRepositoryStub }
+  return { sut, serverRepositoryStub }
 }
 
 describe('DbAddServer', () => {
   it('Should calls add server repository with correct values', async () => {
-    const { sut, addServerRepositoryStub } = makeSut()
+    const { sut, serverRepositoryStub } = makeSut()
     const fakeServer = {
       server_id: 'valid_id',
       name: 'valid_id'
     }
-    const addSpy = jest.spyOn(addServerRepositoryStub, 'add')
+    const addSpy = jest.spyOn(serverRepositoryStub, 'add')
     await sut.add(fakeServer)
 
     expect(addSpy).toHaveBeenCalledWith({
