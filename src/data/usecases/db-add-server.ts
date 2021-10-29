@@ -1,14 +1,14 @@
 import { AddServer, AddServerModel } from '../../domain/usecases/add-server'
-import { AddServerRepository } from '../protocols/add-server-repository'
+import { ServerRepository } from '../protocols/server-repository'
 
 export class DbAddServer implements AddServer {
-  private readonly addServerRepository: AddServerRepository
+  private readonly serverRepository: ServerRepository
 
-  constructor (addServerRepository: AddServerRepository) {
-    this.addServerRepository = addServerRepository
+  constructor (serverRepository: ServerRepository) {
+    this.serverRepository = serverRepository
   }
 
   async add (server: AddServerModel): Promise<void> {
-    await this.addServerRepository.add(server)
+    await this.serverRepository.add(server)
   }
 }
