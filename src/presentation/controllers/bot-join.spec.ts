@@ -9,4 +9,13 @@ describe('Bot Join Controller', () => {
     }
     expect(() => sut.handle(fakeServerData)).toThrow()
   })
+
+  it('Should throw if invalid server name is provided', () => {
+    const sut = new BotJoinController()
+    const fakeServerData = {
+      id: 'any_id',
+      name: ''
+    }
+    expect(() => sut.handle(fakeServerData)).toThrow()
+  })
 })
